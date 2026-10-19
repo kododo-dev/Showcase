@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>Latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Kododo.Showcase</AssemblyName>
+    <RootNamespace>Kododo.Showcase</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kododo.ConfigWay.UI" Version="2.0.0" />
+    <PackageReference Include="Kododo.ConfigWay.PostgreSQL" Version="2.0.0" />
+    <PackageReference Include="Kododo.CultureWay.UI" Version="2.0.0" />
+    <PackageReference Include="Kododo.CultureWay.PostgreSQL" Version="2.0.0" />
+    <PackageReference Include="Kododo.RunWay.Dashboard" Version="2.0.0" />
+    <PackageReference Include="Kododo.RunWay.Runner" Version="2.0.0" />
+    <PackageReference Include="Kododo.RunWay.PostgreSQL" Version="2.0.0" />
+    <!-- The Ways take Way.Shell 2.0; 2.1.1 fixes the panel's address under a path base. -->
+    <PackageReference Include="Kododo.Way.Shell" Version="2.1.1" />
+  </ItemGroup>
+
+</Project>
