@@ -2,9 +2,9 @@
 
 [![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://kododo.dev/showcase)
 
-ConfigWay, CultureWay and RunWay in one ASP.NET Core app, each on its own page and together in the [Way.Shell](https://github.com/kododo-dev/WayShell) panel at `/admin`. A small made-up shop ties them together: its settings live in ConfigWay, the texts of its home page in CultureWay, and its background jobs, which read the settings, run in RunWay.
+ConfigWay, CultureWay, RunWay and MonitorWay in one ASP.NET Core app, each on its own page and together in the [Way.Shell](https://github.com/kododo-dev/WayShell) panel at `/admin`. A small made-up shop ties them together: its settings and a feature flag live in ConfigWay, the texts of its home page in CultureWay, its background jobs, which read the settings, run in RunWay, and MonitorWay shows its logs, traces, errors and metrics.
 
-It runs live at [kododo.dev/showcase](https://kododo.dev/showcase), on the Way 2.0 packages from NuGet. Every push to `main` deploys it.
+It runs live at [kododo.dev/showcase](https://kododo.dev/showcase), on the Way packages from NuGet (MonitorWay is a preview). Every push to `main` deploys it.
 
 ## Running
 
@@ -17,11 +17,11 @@ Set `ConnectionStrings__ShowcaseDB` for another database and `PathBase` to serve
 
 | Page | What it is |
 |---|---|
-| `/` | The shop: name from ConfigWay, texts from CultureWay (`?culture=pl`), buttons that schedule RunWay jobs |
-| `/admin` | The panel with all three Ways |
-| `/config`, `/translations`, `/scheduler` | Each Way on its own page |
+| `/` | The shop: name and the `FreeShipping` flag from ConfigWay, texts from CultureWay (`?culture=pl`), buttons that schedule RunWay jobs |
+| `/admin` | The panel with all four Ways |
+| `/config`, `/translations`, `/scheduler`, `/monitor` | Each Way on its own page |
 
-Everything is anonymous, as a public demo. A real app protects the Ways and the panel, e.g. `app.UseConfigWay().RequireAuthorization("Admin")` and `app.UseWayShell("/admin").RequireAuthorization()`.
+Everything is anonymous, as a public demo. A real app protects the Ways and the panel, e.g. `app.UseConfigWay().RequireAuthorization("Admin")`, `app.UseMonitorWay("/monitor").RequireAuthorization("Admin")` and `app.UseWayShell("/admin").RequireAuthorization()`.
 
 ## Browser scenarios
 

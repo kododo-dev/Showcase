@@ -12,13 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Kododo.ConfigWay.UI" Version="2.0.0" />
-    <PackageReference Include="Kododo.ConfigWay.PostgreSQL" Version="2.0.0" />
+    <PackageReference Include="Kododo.ConfigWay.UI" Version="2.1.0" />
+    <PackageReference Include="Kododo.ConfigWay.PostgreSQL" Version="2.1.0" />
+    <PackageReference Include="Kododo.ConfigWay.FeatureManagement" Version="2.1.0" />
     <PackageReference Include="Kododo.CultureWay.UI" Version="2.0.0" />
     <PackageReference Include="Kododo.CultureWay.PostgreSQL" Version="2.0.0" />
     <PackageReference Include="Kododo.RunWay.Dashboard" Version="2.0.0" />
     <PackageReference Include="Kododo.RunWay.Runner" Version="2.0.0" />
     <PackageReference Include="Kododo.RunWay.PostgreSQL" Version="2.0.0" />
+    <PackageReference Include="Kododo.MonitorWay.UI" Version="2.0.0-preview" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.20.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.20.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.20.1" />
     <!-- The Ways take Way.Shell 2.0; 2.1.1 fixes the panel's address under a path base. -->
     <PackageReference Include="Kododo.Way.Shell" Version="2.1.1" />
   </ItemGroup>

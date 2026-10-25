@@ -60,13 +60,14 @@ const TAGLINE = 'Loose-leaf tea, shipped fresh.';
     await page.goto(`${base}/`);
     record('home page: name from ConfigWay', await visible(page.getByTestId('shop-name').filter({ hasText: NAME })));
     record('home page: text from CultureWay', await visible(page.getByTestId('tagline').filter({ hasText: 'Loose-leaf tea' })));
+    record('home page: banner of a ConfigWay feature flag', await visible(page.getByTestId('free-shipping').filter({ hasText: 'Free shipping' })));
     await page.getByRole('link', { name: 'pl', exact: true }).click();
     record('home page in Polish', await visible(page.getByTestId('tagline').filter({ hasText: 'Herbata liściasta' })));
     await page.getByRole('link', { name: 'en', exact: true }).click();
 
     await page.getByRole('link', { name: 'Open the admin panel' }).click();
     record('panel opens the first Way', (await visible(page.getByRole('heading', { name: 'All Settings' }))) && hash(page) === '#/config/', page.url());
-    record('panel lists the three Ways', (await shellMenu(page)).join(',') === 'Configuration,Translations,Scheduler', (await shellMenu(page)).join(','));
+    record('panel lists the four Ways', (await shellMenu(page)).join(',') === 'Configuration,Translations,Scheduler,Monitor', (await shellMenu(page)).join(','));
     record('title of the host', (await page.title()) === 'Kododo Ways', await page.title());
     const menu = page.getByTestId('way-menu');
     record("ConfigWay's sections in the shell menu", await visible(menu.getByText('Shop')));
@@ -121,6 +122,14 @@ const TAGLINE = 'Loose-leaf tea, shipped fresh.';
 
     await page.goto(`${base}/admin/#/scheduler/`);
     record('deep link into a Way of the panel', await visible(page.getByRole('heading', { name: /Dashboard|Pulpit/ })));
+
+    // MonitorWay: what the shop just did, in the logs and the traces.
+    await page.locator('nav').getByText('Monitor').click();
+    record('switch to MonitorWay', (await visible(page.getByRole('heading', { name: /Overview|Przegląd/ }))) && hash(page).startsWith('#/monitor/'), page.url());
+    await page.goto(`${base}/admin/#/monitor/logs`);
+    record("MonitorWay shows the job's log", await visible(page.getByText(/Sending newsletter|Newsletter .* skipped/)));
+    await page.goto(`${base}/admin/#/monitor/traces`);
+    record('MonitorWay shows the trace of the home page', await visible(page.getByText('GET /', { exact: true })));
     record('no errors', errors.length === 0, errors.join(' | '));
 
   } finally {
@@ -134,7 +143,7 @@ const TAGLINE = 'Loose-leaf tea, shipped fresh.';
 // Each Way also on its own page, with the host's shell settings and without the list of Ways.
 {
   const { context, page, errors } = await open();
-  for (const [path, heading] of [['config', 'All Settings'], ['translations', 'All'], ['scheduler', 'Dashboard']]) {
+  for (const [path, heading] of [['config', 'All Settings'], ['translations', 'All'], ['scheduler', 'Dashboard'], ['monitor', 'Overview']]) {
     await page.goto(`${base}/${path}/`);
     record(`${path} on its own page`, (await visible(page.getByRole('heading', { name: heading }))) && (await page.locator('nav').count()) === 0);
   }

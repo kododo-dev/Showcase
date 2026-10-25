@@ -3,7 +3,7 @@ using Microsoft.Extensions.Localization;
 
 namespace Kododo.Showcase;
 
-/// <summary>The shop's home page: its name from ConfigWay, its texts from CultureWay, buttons that schedule RunWay jobs.</summary>
+/// <summary>The shop's home page: its name and a feature flag from ConfigWay, its texts from CultureWay, buttons that schedule RunWay jobs.</summary>
 internal sealed class HomePage
 {
     private record Tea(string Name, string Origin, string NoteKey, decimal Price, string Colour);
@@ -15,7 +15,7 @@ internal sealed class HomePage
         new("Earl Grey Classic", "Sri Lanka", "EarlGrey", 11.00m, "#7a4a2e"),
     ];
 
-    public static string Render(string basePath, ShopOptions shop, IStringLocalizer<HomePage> text, string culture)
+    public static string Render(string basePath, ShopOptions shop, IStringLocalizer<HomePage> text, string culture, bool freeShipping)
     {
         string T(string key, params object[] args) => WebUtility.HtmlEncode(text[key, args].Value);
         var name = WebUtility.HtmlEncode(shop.Name);
@@ -33,6 +33,7 @@ internal sealed class HomePage
                   </div>
                 </article>
             """));
+        var shipping = freeShipping ? $"""<p class="shipping" data-testid="free-shipping">{T("FreeShipping")}</p>""" : "";
         return $$"""
             <!doctype html>
             <html lang="{{culture}}">
@@ -67,6 +68,7 @@ internal sealed class HomePage
                 .languages a:hover{background:var(--line);color:var(--ink)}
                 .languages strong{background:var(--ink);color:var(--bg)}
 
+                .shipping{margin:0;padding:10px 20px;text-align:center;background:#e6efe0;color:var(--accent);font-size:.9rem;font-weight:600;border-bottom:1px solid var(--line)}
                 .hero{padding:72px 0 56px}
                 .hero h2{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;font-weight:500;margin:0 0 16px;max-width:14em;letter-spacing:-.02em}
                 .hero p{color:var(--muted);font-size:1.125rem;max-width:36em;margin:0}
@@ -85,7 +87,7 @@ internal sealed class HomePage
 
                 .behind{background:#f0ebe2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:64px 0}
                 .behind .lead{color:var(--muted);margin:-12px 0 28px;max-width:40em}
-                .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+                .ways{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
                 .way{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column}
                 .way h3{margin:0 0 4px;font-size:1rem}
                 .way .pkg{font:.75rem ui-monospace,'Cascadia Mono',Consolas,monospace;color:var(--muted);margin:0 0 10px}
@@ -119,6 +121,8 @@ internal sealed class HomePage
                   <nav class="languages" aria-label="Language">{{languages}}</nav>
                 </div>
               </header>
+
+              {{shipping}}
 
               <main>
                 <section class="hero">
@@ -161,6 +165,12 @@ internal sealed class HomePage
                         </div>
                         <p id="status" role="status"></p>
                         <a class="open" href="scheduler/">Scheduler →</a>
+                      </div>
+                      <div class="way">
+                        <h3>Monitoring</h3>
+                        <p class="pkg">Kododo.MonitorWay</p>
+                        <p class="desc">{{T("MonitorWay")}}</p>
+                        <a class="open" href="monitor/">Monitor →</a>
                       </div>
                     </div>
                   </div>

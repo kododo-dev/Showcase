@@ -5,8 +5,9 @@ using Microsoft.Extensions.Options;
 
 namespace Kododo.Showcase;
 
-// A small made-up shop that uses every Way: ConfigWay holds its settings, CultureWay the texts of its home page and
-// RunWay its background jobs, which read the settings. The settings start from appsettings.json.
+// A small made-up shop that uses every Way: ConfigWay holds its settings and a feature flag, CultureWay the texts of
+// its home page, RunWay its background jobs, which read the settings, and MonitorWay shows what it all does. The
+// settings and the flag start from appsettings.json.
 
 [Display(Name = "Shop", Description = "The shop's public details, shown on the home page and used by the jobs.")]
 public class ShopOptions
@@ -83,7 +84,7 @@ internal class CleanupJobHandler(ILogger<CleanupJobHandler> logger) : IJobHandle
     }
 }
 
-/// <summary>Texts of the home page, scoped to <see cref="HomePage"/>; written once into an empty database.</summary>
+/// <summary>Texts of the home page, scoped to <see cref="HomePage"/>; those missing from the database are written at startup.</summary>
 internal static class ShopTranslations
 {
     public static Translation[] Seed() =>
@@ -112,12 +113,18 @@ internal static class ShopTranslations
         T("Behind", "en", "Behind the scenes"),
         T("Behind", "pl", "Za kulisami"),
         T("Behind", "de", "Hinter den Kulissen"),
-        T("BehindText", "en", "Three Kododo Ways run this shop. Change something in the panel and reload this page: no restart, no deploy."),
-        T("BehindText", "pl", "Ten sklep obsługują trzy Kododo Ways. Zmień coś w panelu i odśwież tę stronę: bez restartu, bez wdrożenia."),
-        T("BehindText", "de", "Drei Kododo Ways betreiben diesen Shop. Ändern Sie etwas im Panel und laden Sie die Seite neu: ohne Neustart, ohne Deployment."),
-        T("ConfigWay", "en", "The shop's name, support email and job settings. Rename the shop and the header changes."),
-        T("ConfigWay", "pl", "Nazwa sklepu, e-mail pomocy i ustawienia zadań. Zmień nazwę, a zmieni się nagłówek."),
-        T("ConfigWay", "de", "Name des Shops, Support-E-Mail und Job-Einstellungen. Benennen Sie den Shop um, und die Kopfzeile ändert sich."),
+        T("BehindText", "en", "Four Kododo Ways run this shop. Change something in the panel and reload this page: no restart, no deploy."),
+        T("BehindText", "pl", "Ten sklep obsługują cztery Kododo Ways. Zmień coś w panelu i odśwież tę stronę: bez restartu, bez wdrożenia."),
+        T("BehindText", "de", "Vier Kododo Ways betreiben diesen Shop. Ändern Sie etwas im Panel und laden Sie die Seite neu: ohne Neustart, ohne Deployment."),
+        T("ConfigWay", "en", "The shop's name, support email and job settings, and the free shipping flag. Rename the shop or turn the flag off and the page changes."),
+        T("ConfigWay", "pl", "Nazwa sklepu, e-mail pomocy, ustawienia zadań i flaga darmowej dostawy. Zmień nazwę albo wyłącz flagę, a strona się zmieni."),
+        T("ConfigWay", "de", "Name des Shops, Support-E-Mail, Job-Einstellungen und das Flag für kostenlosen Versand. Benennen Sie den Shop um oder schalten Sie das Flag aus, und die Seite ändert sich."),
+        T("MonitorWay", "en", "Logs, traces, errors and metrics of this shop. Load this page or run a job, then find it in the logs and the traces."),
+        T("MonitorWay", "pl", "Logi, ślady, błędy i metryki tego sklepu. Odśwież tę stronę albo uruchom zadanie, a potem znajdź je w logach i śladach."),
+        T("MonitorWay", "de", "Logs, Traces, Fehler und Metriken dieses Shops. Laden Sie diese Seite oder starten Sie einen Job und finden Sie ihn dann in den Logs und Traces."),
+        T("FreeShipping", "en", "Free shipping on orders over €40."),
+        T("FreeShipping", "pl", "Darmowa dostawa przy zamówieniach powyżej 40 €."),
+        T("FreeShipping", "de", "Kostenloser Versand ab 40 € Bestellwert."),
         T("CultureWay", "en", "Every text on this page in English, Polish and German. Edit one and switch the language."),
         T("CultureWay", "pl", "Każdy tekst tej strony po angielsku, polsku i niemiecku. Zmień jeden i przełącz język."),
         T("CultureWay", "de", "Jeder Text dieser Seite auf Englisch, Polnisch und Deutsch. Bearbeiten Sie einen und wechseln Sie die Sprache."),
